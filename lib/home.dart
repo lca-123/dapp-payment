@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
+import 'trasfer.dart';
 
 class HomePage extends StatefulWidget {
   final String privateKey;
@@ -31,27 +32,49 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Home Page'),
       ),
-      body: Container(
-        height: screenHeight * 0.15,
-        padding: EdgeInsets.all(screenWidth * 0.03),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), // 圆角的半径
-            border: Border.all(
-              color: Colors.grey, // 边框颜色
-              width: 1.0, // 边框宽度
-            ),
-          ),
+      body: RefreshIndicator(
+        onRefresh: _onRefresh,
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('address:'),
-              Text(_getAddress(widget.privateKey)),
-              Text(''),
-              _balance == BigInt.from(-1)
-                  ? Text('') // 显示加载指示器
-                  : Text('Balance: $_balance')
+              Container(
+                height: screenHeight * 0.2,
+                width: screenWidth * 0.99,
+                padding: EdgeInsets.all(screenWidth * 0.03),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20), // 圆角的半径
+                    border: Border.all(
+                      color: Colors.grey, // 边框颜色
+                      width: 1.0, // 边框宽度
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('address:'),
+                      Text(_getAddress(widget.privateKey)),
+                      Text(''),
+                      Text('Balance:'),
+                      _balance == BigInt.from(-1)
+                          ? Text('')
+                          : Text(
+                              '$_balance ETH',
+                              style: const TextStyle(
+                                  color: Colors.deepPurple,
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(),
+              Transfer(
+                privateKey: widget.privateKey,
+              )
             ],
           ),
         ),
@@ -78,5 +101,12 @@ class _HomePageState extends State<HomePage> {
     });
 
     return balance.getInEther;
+  }
+
+  Future<void> _onRefresh() async {
+    final temp = await _getBalance(widget.privateKey);
+    setState(() {
+      _balance = temp;
+    });
   }
 }

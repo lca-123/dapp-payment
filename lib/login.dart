@@ -105,7 +105,14 @@ class _LoginPageState extends State<LoginPage> {
                   });
                 }
               },
-              child: const Text('login')),
+              style: TextButton.styleFrom(
+                  backgroundColor: Colors.deepPurple // 设置按钮的背景颜色
+                  ),
+              child: const Text(
+                'login',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+              )),
           Text(content)
         ],
       )),
