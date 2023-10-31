@@ -1,4 +1,4 @@
-const contractAddress = '0x941b4e30749cE8d90304BB4aa1A641A50b3A23E5';
+const contractAddress = '0x1857Ee1f3670BC3CA1593D520F74c84F8C878358';
 const contractABI = '''[
     {
       "inputs": [],
@@ -100,7 +100,7 @@ const contractABI = '''[
               "type": "bool"
             }
           ],
-          "internalType": "struct Purchase2.PurchaseInfo[]",
+          "internalType": "struct Purchase.PurchaseInfo[]",
           "name": "",
           "type": "tuple[]"
         }
