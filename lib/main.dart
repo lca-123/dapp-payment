@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:web3dart/web3dart.dart';
-import 'package:http/http.dart';
 import 'login.dart';
 
 void main() {

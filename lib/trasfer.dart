@@ -84,12 +84,19 @@ class _TransferState extends State<Transfer> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    await transfer();
-                    setState(() {
-                      _toAddress.text = '';
-                      _amount.text = '';
-                      massage = 'transfer complete';
-                    });
+                    try {
+                      await transfer();
+                      setState(() {
+                        _toAddress.text = '';
+                        _amount.text = '';
+                        massage = 'transfer complete';
+                      });
+                    } catch (e) {
+                      setState(() {
+                        massage = 'transfer fail';
+                      });
+                    }
+
                     await Future.delayed(const Duration(seconds: 5));
                     setState(() {
                       massage = '';

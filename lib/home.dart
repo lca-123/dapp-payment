@@ -1,3 +1,4 @@
+import 'history.dart';
 import 'package:flutter/material.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
@@ -37,6 +38,7 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 height: screenHeight * 0.2,
@@ -59,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                       Text(''),
                       Text('Balance:'),
                       _balance == BigInt.from(-1)
-                          ? Text('')
+                          ? Text('network error')
                           : Text(
                               '$_balance ETH',
                               style: const TextStyle(
@@ -74,6 +76,26 @@ class _HomePageState extends State<HomePage> {
               Container(),
               Transfer(
                 privateKey: widget.privateKey,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HistoryTransfers()),
+                  );
+                },
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.deepPurple, // 设置按钮的背景颜色
+                ),
+                child: const Text(
+                  'decay transfers',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: screenHeight * 0.3,
               )
             ],
           ),
@@ -108,5 +130,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _balance = temp;
     });
+    // await Future.delayed(const Duration(seconds: 2));
   }
 }
