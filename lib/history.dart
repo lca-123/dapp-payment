@@ -34,7 +34,7 @@ class _HistoryTransfersState extends State<HistoryTransfers> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text('Decay Transfers'),
+        title: Text('Delay Transfers'),
       ),
       body: _listnum == 0
           ? const Text('')

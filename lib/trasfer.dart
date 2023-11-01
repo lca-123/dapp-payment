@@ -65,7 +65,7 @@ class _TransferState extends State<Transfer> {
               children: [
                 Row(
                   children: [
-                    Text('decay'),
+                    Text('delay'),
                     Container(
                       width: screenWidth * 0.01,
                     ),
@@ -124,7 +124,7 @@ class _TransferState extends State<Transfer> {
 
   Future<void> transfer() async {
     if (_isDecay == true) {
-      print('decay transfer ${_amount.text} ETH to ${_toAddress.text}');
+      print('delay transfer ${_amount.text} ETH to ${_toAddress.text}');
       await decayTransfer();
     } else {
       print('instant transfer ${_amount.text} ETH to ${_toAddress.text}');

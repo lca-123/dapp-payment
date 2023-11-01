@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                   backgroundColor: Colors.deepPurple, // 设置按钮的背景颜色
                 ),
                 child: const Text(
-                  'decay transfers',
+                  'delay transfers',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
