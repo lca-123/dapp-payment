@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:web3dart/web3dart.dart';
 import 'package:http/http.dart';
+import 'abi.dart';
 
 class Transfer extends StatefulWidget {
   final String privateKey;
@@ -12,9 +13,8 @@ class Transfer extends StatefulWidget {
 }
 
 class _TransferState extends State<Transfer> {
-  final TextEditingController _toAddress =
-      TextEditingController(text: '0xe36180eDE83e2230D0DAcAc657f29280Bc0a3318');
-  final TextEditingController _amount = TextEditingController(text: '1');
+  final TextEditingController _toAddress = TextEditingController();
+  final TextEditingController _amount = TextEditingController();
 
   bool _isDecay = true;
   String massage = '';
@@ -142,11 +142,40 @@ class _TransferState extends State<Transfer> {
     final amount = EtherAmount.fromBase10String(EtherUnit.ether, _amount.text);
     final transaction =
         Transaction(from: fromaddress, to: toaddress, value: amount);
-    // print(transaction);
+
     final txHash = await web3Client.sendTransaction(ethPrivateKey, transaction,
         chainId: id.toInt());
     print('Transaction hash: $txHash');
   }
 
-  Future<void> decayTransfer() async {}
+  Future<void> decayTransfer() async {
+    final httpClient = Client();
+    final web3Client = Web3Client('http://localhost:8545', httpClient);
+    BigInt id = await web3Client.getChainId();
+
+    final ethPrivateKey = EthPrivateKey.fromHex(widget.privateKey);
+    final address = ethPrivateKey.address;
+
+    final EthereumAddress contractAddr =
+        EthereumAddress.fromHex(contractAddress);
+
+    final contract = DeployedContract(
+      ContractAbi.fromJson(contractABI, 'Purchase'),
+      contractAddr,
+    );
+
+    final writeFunction = contract.function('buyerAdd');
+    final to = EthereumAddress.fromHex(_toAddress.text);
+    final newValue = BigInt.parse(_amount.text);
+
+    final transaction = Transaction.callContract(
+        contract: contract,
+        function: writeFunction,
+        parameters: [to],
+        from: address,
+        value: EtherAmount.fromBigInt(EtherUnit.ether, newValue));
+    final txHash = await web3Client.sendTransaction(ethPrivateKey, transaction,
+        chainId: id.toInt());
+    print('Transaction hash: $txHash');
+  }
 }

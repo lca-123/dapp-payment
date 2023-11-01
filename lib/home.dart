@@ -82,7 +82,9 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HistoryTransfers()),
+                        builder: (context) => HistoryTransfers(
+                              privateKey: widget.privateKey,
+                            )),
                   );
                 },
                 style: TextButton.styleFrom(
@@ -119,10 +121,10 @@ class _HomePageState extends State<HomePage> {
     final balance = await web3Client.getBalance(address);
     // await Future.delayed(Duration(seconds: 5));
     setState(() {
-      _balance = balance.getInEther;
+      _balance = balance.getInWei ~/ BigInt.from(1000000000000000000);
     });
 
-    return balance.getInEther;
+    return balance.getInWei ~/ BigInt.from(1000000000000000000);
   }
 
   Future<void> _onRefresh() async {

@@ -10,11 +10,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _publicKeyController =
-      TextEditingController(text: '0xDB90067BD80077C7DD5286bD3AfB1a411284ce41');
-  final TextEditingController _privateKeyController = TextEditingController(
-      text:
-          '0xea3a506d6aa0e1098e637579541f0fafe16332c2068299137d776e8d0ee44c32');
+  final TextEditingController _publicKeyController = TextEditingController();
+  final TextEditingController _privateKeyController = TextEditingController();
   String content = '';
 
   @override
